@@ -24,7 +24,4 @@ def hero_action(hero):
 
 archer = Archer("Купидон", 100)
 
-
-
-#test
 hero_action(archer)
