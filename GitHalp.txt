@@ -36,3 +36,5 @@ git switch name
 
 9) Это команда для удаления папки и файло внитри него
 git rm -r -f name
+
+10)git switch
