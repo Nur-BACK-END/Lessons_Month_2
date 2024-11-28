@@ -26,8 +26,7 @@ def connect_or_create_db():
 
 def create_table():
     connect = connect_or_create_db()
-    cursor =  connect.cursor()
-
+    cursor = connect.cursor()
 
     # Создание таблиц
     cursor.execute('''
@@ -53,10 +52,9 @@ def create_table():
     connect.close()
 
 
-
 def add_user(fio, age):
     connect = connect_or_create_db()
-    cursor =  connect.cursor()
+    cursor = connect.cursor()
     cursor.execute(
         'INSERT INTO users(fio, age) VALUES (?,?)',
         (fio, age))
@@ -66,7 +64,7 @@ def add_user(fio, age):
 
 def add_grade(userid, subject, grade):
     connect = connect_or_create_db()
-    cursor =  connect.cursor()
+    cursor = connect.cursor()
     cursor.execute(
         'INSERT INTO grades(userid, subject, grade) VALUES (?,?,?)',
         (userid, subject, grade))
@@ -76,20 +74,36 @@ def add_grade(userid, subject, grade):
 
 def get_user_with_grades():
     connect = connect_or_create_db()
-    cursor =  connect.cursor()
+    cursor = connect.cursor()
 
     cursor.execute('''
         SELECT users.fio, users.age, grades.subject, grades.grade
         FROM users
-        LEFT JOIN grades ON users.userid = grades.userid 
+        LEFT JOIN grades ON users.userid = grades.userid
     ''')
 
     rows = cursor.fetchall()
-    print(rows)
-
+    print("Результат LEFT JOIN:")
     for i in rows:
         print(i)
 
+    connect.close()
+
+
+def get_users_with_inner_join():
+    connect = connect_or_create_db()
+    cursor = connect.cursor()
+
+    cursor.execute('''
+        SELECT users.fio, users.age, grades.subject, grades.grade
+        FROM users
+        INNER JOIN grades ON users.userid = grades.userid
+    ''')
+
+    rows = cursor.fetchall()
+    print("Результат INNER JOIN:")
+    for row in rows:
+        print(row)
 
     connect.close()
 
@@ -103,5 +117,5 @@ add_grade(1, 'Алгебра', 3)
 add_grade(1, 'Русский', 2)
 add_grade(2, 'Алгебра', 5)
 
-
-get_user_with_grades()
+get_user_with_grades()  # LEFT JOIN
+get_users_with_inner_join()  # INNER JOIN
